@@ -1,4 +1,4 @@
-
+/*
 USE master;
 GO
 
@@ -13,13 +13,14 @@ GO
 -- Recreate database
 CREATE DATABASE MIST353_NFL_Schwertfeger;
 GO
+*/
 
-USE MIST353_NFL_Schwertfeger;
+USE [mist353-server-schwertfeger];
 GO
 
----------------------------------------------------
+
 -- CREATE TABLES
----------------------------------------------------
+
 
 CREATE TABLE ConferenceDivision (
     ConferenceDivisionID INT PRIMARY KEY IDENTITY(1,1),
