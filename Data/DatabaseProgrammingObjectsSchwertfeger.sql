@@ -39,21 +39,28 @@ BEGIN
 
 END
 
+GO
 /*
 Execute procGetTeamsByConferenceDivision
 @ConferenceName = 'NFC',
 @DivisionName = 'North'
 */
 
+CREATE OR ALTER PROCEDURE procGetOtherTeamsInDivision
+(
+    @TeamName VARCHAR(50)
+)
+AS
+BEGIN
+
+    SELECT 
+        OtherTeam.TeamName
+    FROM Team AS MyTeam
+        INNER JOIN Team AS OtherTeam
+            ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+    WHERE 
+        MyTeam.TeamName = @TeamName
+        AND OtherTeam.TeamName <> @TeamName;
+
+END;
 GO
-
-select * from Team;
-
-declare @myTeamName NVARCHAR(50) = 'Steelers';
-
-select OtherTeam.TeamName
-from Team MyTeam inner join Team OtherTeam
-on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-where MyTeam.TeamName != @myTeamName and OtherTeam.TeamName != @myTeamName;
-
---Find all teams in my Division

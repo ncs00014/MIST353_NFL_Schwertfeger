@@ -1,4 +1,4 @@
-USE MIST353_NFL_Schwertfeger;
+USE [mist353-server-schwertfeger];
 GO
 
 INSERT INTO ConferenceDivision (Conference, Division)
