@@ -18,7 +18,45 @@ JOIN ConferenceDivision cd
 ORDER BY cd.Conference, cd.Division, t.TeamName;
 */
 
-use [mist353-server-schwertfeger];
+-- use master;
+
+-- CREATE LOGIN APILogin
+-- WITH PASSWORD = 'MIST353Instructor'
+
+-- GO
+
+-- use master;
+
+/*
+USE master;
+
+
+CREATE LOGIN NanadaSurendra
+WITH PASSWORD = 'MIST353Instructor';
+
+
+
+USE [mist353-server-schwertfeger];
+GO
+
+CREATE USER NanadaSurendra
+FOR LOGIN NanadaSurendra;
+GO
+
+GRANT EXECUTE TO NanadaSurendra;
+GRANT SELECT TO NanadaSurendra;
+*/
+
+/*
+CREATE USER APIUser
+For LOGIN APILogin;
+
+GRANT EXECUTE to APIUser;
+Grant SELECT to APIUser;
+*/
+
+
+/*use [mist353-server-schwertfeger];
 
 GO
 
@@ -38,29 +76,31 @@ BEGIN
     AND C.Division = ISNULL(@DivisionName, Division)
 
 END
+*/
 
-GO
 /*
 Execute procGetTeamsByConferenceDivision
 @ConferenceName = 'NFC',
 @DivisionName = 'North'
 */
 
-CREATE OR ALTER PROCEDURE procGetOtherTeamsInDivision
+USE [mist353-server-schwertfeger];
+GO
+
+CREATE OR ALTER PROCEDURE procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
 (
     @TeamName VARCHAR(50)
 )
 AS
 BEGIN
-
-    SELECT 
-        OtherTeam.TeamName
-    FROM Team AS MyTeam
-        INNER JOIN Team AS OtherTeam
-            ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-    WHERE 
-        MyTeam.TeamName = @TeamName
-        AND OtherTeam.TeamName <> @TeamName;
-
+    SELECT OtherTeam.TeamName
+    FROM Team MyTeam
+    INNER JOIN Team OtherTeam
+        ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+    WHERE MyTeam.TeamName = @TeamName
+      AND OtherTeam.TeamName != @TeamName;
 END;
 GO
+
+EXEC procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
+    @TeamName = 'Pittsburgh Steelers';
