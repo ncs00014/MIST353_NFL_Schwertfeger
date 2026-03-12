@@ -21,7 +21,7 @@ ORDER BY cd.Conference, cd.Division, t.TeamName;
 -- use master;
 
 -- CREATE LOGIN APILogin
--- WITH PASSWORD = 'MIST353Instructor'
+-- WITH PASSWORD = 'MI$T353Instructor'
 
 -- GO
 
@@ -32,7 +32,7 @@ USE master;
 
 
 CREATE LOGIN NanadaSurendra
-WITH PASSWORD = 'MIST353Instructor';
+WITH PASSWORD = 'MI$T353Instructor';
 
 
 
@@ -56,7 +56,7 @@ Grant SELECT to APIUser;
 */
 
 
-/*use [mist353-server-schwertfeger];
+use [mist353-server-schwertfeger];
 
 GO
 
@@ -76,7 +76,7 @@ BEGIN
     AND C.Division = ISNULL(@DivisionName, Division)
 
 END
-*/
+
 
 /*
 Execute procGetTeamsByConferenceDivision
@@ -84,7 +84,7 @@ Execute procGetTeamsByConferenceDivision
 @DivisionName = 'North'
 */
 
-USE [mist353-server-schwertfeger];
+
 GO
 
 CREATE OR ALTER PROCEDURE procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
