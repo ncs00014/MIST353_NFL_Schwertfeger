@@ -102,5 +102,12 @@ BEGIN
 END;
 GO
 
-EXEC procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
-    @TeamName = 'Pittsburgh Steelers';
+
+USE [mist353-server-schwertfeger];
+GO
+
+IF OBJECT_ID('dbo.procGetOtherTeamsInDivision', 'P') IS NOT NULL
+    DROP PROCEDURE GetOtherTeamsInDivision;
+GO
+DROP PROCEDURE IF EXISTS dbo.GetOtherTeamsInDivision;
+GO
