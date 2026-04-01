@@ -1,57 +1,64 @@
-USE [mist353-server-schwertfeger];
-GO
+-- Insert data
+-- Insert all the ConferenceDivision data (8 rows)
+-- Insert team data for AFC North (4 rows)
 
-INSERT INTO ConferenceDivision (Conference, Division)
-VALUES 
-('AFC', 'North'),
-('AFC', 'South'),
-('AFC', 'East'),
-('AFC', 'West'),
-('NFC', 'North'),
-('NFC', 'South'),
-('NFC', 'East'),
-('NFC', 'West');
-GO
+insert into ConferenceDivision (Conference, Division)
+values ('AFC', 'North'),
+       ('AFC', 'South'),
+       ('AFC', 'East'),
+       ('AFC', 'West'),
+       ('NFC', 'North'),
+       ('NFC', 'South'),
+       ('NFC', 'East'),
+       ('NFC', 'West');
 
-INSERT INTO Team (TeamName, TeamCityState, TeamColors, ConferenceDivisionID)
+GO
+--select * from ConferenceDivision order by ConferenceDivisionID;
+
+GO
+insert into Team (TeamName, TeamCityState, TeamColors, ConferenceDivisionID)
 VALUES
-('Baltimore Ravens', 'Baltimore', 'Purple, Black, Gold', 1),
-('Pittsburgh Steelers', 'Pittsburgh', 'Black, Gold', 1),
-('Cleveland Browns', 'Cleveland', 'Brown, Orange', 1),
-('Cincinnati Bengals', 'Cincinnati', 'Orange, Black', 1),
+('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black, Metallic Gold', 1),
+('Cincinnati Bengals', 'Cincinnati, OH', 'Black, Orange, White', 1),
+('Cleveland Browns', 'Cleveland, OH', 'Brown, Orange, White', 1),
+('Pittsburgh Steelers', 'Pittsburgh, PA', 'Black, Gold, White', 1),
 
-('Houston Texans', 'Houston', 'Navy, Red', 2),
-('Indianapolis Colts', 'Indianapolis', 'Blue, White', 2),
-('Jacksonville Jaguars', 'Jacksonville', 'Teal, Black, Gold', 2),
-('Tennessee Titans', 'Nashville', 'Navy, Light Blue', 2),
+('Houston Texans', 'Houston, TX', 'Deep Steel Blue, Battle Red, Liberty White', 2),
+('Indianapolis Colts', 'Indianapolis, IN', 'Speed Blue, White', 2),
+('Jacksonville Jaguars', 'Jacksonville, FL', 'Teal, Black, Gold, White', 2),
+('Tennessee Titans', 'Nashville, TN', 'Titans Navy, Titans Blue, Red, Silver', 2),
 
-('Buffalo Bills', 'Buffalo', 'Blue, Red', 3),
-('Miami Dolphins', 'Miami', 'Aqua, Orange', 3),
-('New England Patriots', 'Foxborough', 'Navy, Red, Silver', 3),
-('New York Jets', 'New York', 'Green, White', 3),
+('Buffalo Bills', 'Buffalo, NY', 'Royal Blue, Red, White', 3),
+('Miami Dolphins', 'Miami, FL', 'Aqua Green, Orange, White', 3),
+('New England Patriots', 'Foxborough, MA', 'Navy Blue, Red, Silver, White', 3),
+('New York Jets', 'East Rutherford, NJ', 'Gotham Green, Spotlight White, Stealth Black', 3),
 
-('Kansas City Chiefs', 'Kansas City', 'Red, Gold', 4),
-('Las Vegas Raiders', 'Las Vegas', 'Black, Silver', 4),
-('Los Angeles Chargers', 'Los Angeles', 'Powder Blue, Gold', 4),
-('Denver Broncos', 'Denver', 'Orange, Navy', 4),
+('Denver Broncos', 'Denver, CO', 'Broncos Orange, Navy Blue, White', 4),
+('Kansas City Chiefs', 'Kansas City, MO', 'Red, Gold, White', 4),
+('Las Vegas Raiders', 'Las Vegas, NV', 'Silver and Black', 4),
+('Los Angeles Chargers', 'Los Angeles, CA', 'Powder Blue, Sunshine Gold, White', 4),
 
-('Chicago Bears', 'Chicago', 'Navy, Orange', 5),
-('Detroit Lions', 'Detroit', 'Blue, Silver', 5),
-('Green Bay Packers', 'Green Bay', 'Green, Gold', 5),
-('Minnesota Vikings', 'Minneapolis', 'Purple, Gold', 5),
+('Chicago Bears', 'Chicago, IL', 'Navy Blue, Orange, White', 5),
+('Detroit Lions', 'Detroit, MI', 'Honolulu Blue, Silver, White', 5),
+('Green Bay Packers', 'Green Bay, WI', 'Dark Green, Gold, White', 5),
+('Minnesota Vikings', 'Minneapolis, MN', 'Purple, Gold, White', 5),
 
-('Atlanta Falcons', 'Atlanta', 'Red, Black', 6),
-('Carolina Panthers', 'Charlotte', 'Black, Blue', 6),
-('New Orleans Saints', 'New Orleans', 'Black, Gold', 6),
-('Tampa Bay Buccaneers', 'Tampa Bay', 'Red, Pewter', 6),
+('Atlanta Falcons', 'Atlanta, GA', 'Red, Black, Silver, White', 6),
+('Carolina Panthers', 'Charlotte, NC', 'Black, Panther Blue, Silver, White', 6),
+('New Orleans Saints', 'New Orleans, LA', 'Old Gold, Black, White', 6),
+('Tampa Bay Buccaneers', 'Tampa Bay, FL', 'Red, Pewter, Black, Orange, White', 6),
 
-('Dallas Cowboys', 'Dallas', 'Blue, Silver', 7),
-('New York Giants', 'New York', 'Blue, Red', 7),
-('Philadelphia Eagles', 'Philadelphia', 'Green, Silver', 7),
-('Washington Commanders', 'Washington', 'Burgundy, Gold', 7),
+('Dallas Cowboys', 'Dallas, TX', 'Navy Blue, Metallic Silver, White', 7),
+('New York Giants', 'East Rutherford, NJ', 'Royal Blue, Red, White', 7),
+('Philadelphia Eagles', 'Philadelphia, PA', 'Midnight Green, Silver Metallic, Black Metallic, White', 7),
+('Washington Commanders', 'Washington D.C.', 'Burgundy, Gold', 7),
 
-('San Francisco 49ers', 'San Francisco', 'Red, Gold', 8),
-('Seattle Seahawks', 'Seattle', 'Navy, Green', 8),
-('Los Angeles Rams', 'Los Angeles', 'Blue, Gold', 8),
-('Arizona Cardinals', 'Phoenix', 'Red, Black', 8);
+('Arizona Cardinals', 'Phoenix, AZ', 'Red, Black, White', 8),
+('Los Angeles Rams', 'Los Angeles, CA', 'Royal Blue, Silver, Gold', 8),
+('San Francisco 49ers', 'San Francisco, CA', 'Scarlet, Gold', 8),
+('Seattle Seahawks', 'Seattle, WA', 'College Navy, Action Green', 8);
+
 GO
+--select * from Team order by TeamID;
+
+

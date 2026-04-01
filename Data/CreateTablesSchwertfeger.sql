@@ -1,42 +1,38 @@
+if(OBJECT_ID('Team') is not null)
+    drop table Team;
+if(OBJECT_ID('ConferenceDivision') is not null)
+    drop table ConferenceDivision;
+
+-- Create tables for first iteration
+go
+
+create TABLE ConferenceDivision ( 
+    ConferenceDivisionID INT identity(1,1) 
+        constraint PK_ConferenceDivision PRIMARY KEY,
+    Conference NVARCHAR(50) NOT NULL
+        constraint CK_ConferenceNames CHECK (Conference IN ('AFC', 'NFC')),
+    Division NVARCHAR(50) NOT NULL
+        constraint CK_DivisionNames CHECK (Division IN ('East', 'North', 'South', 'West')),
+    constraint UK_ConferenceDivision UNIQUE (Conference, Division)
+);
+
 /*
-USE master;
-GO
+alter table ConferenceDivision
+    NOCHECK CONSTRAINT CK_ConferenceNames;
 
--- Drop database if it already exists
-IF DB_ID('MIST353_NFL_Schwertfeger') IS NOT NULL
-BEGIN
-    ALTER DATABASE MIST353_NFL_Schwertfeger SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE MIST353_NFL_Schwertfeger;
-END
-GO
-
--- Recreate database
-CREATE DATABASE MIST353_NFL_Schwertfeger;
-GO
+alter table ConferenceDivision
+    CHECK CONSTRAINT CK_ConferenceNames;
 */
 
-USE [mist353-server-schwertfeger];
-GO
+go
 
-
--- CREATE TABLES
-
-
-CREATE TABLE ConferenceDivision (
-    ConferenceDivisionID INT PRIMARY KEY IDENTITY(1,1),
-    Conference VARCHAR(3) NOT NULL,
-    Division VARCHAR(10) NOT NULL
+create TABLE Team ( 
+    TeamID INT identity(1,1) 
+        constraint PK_Team PRIMARY KEY,
+    TeamName NVARCHAR(50) NOT NULL,
+    TeamCityState NVARCHAR(50) NOT NULL,
+    TeamColors NVARCHAR(100) NOT NULL,
+    ConferenceDivisionID INT NOT NULL
+        constraint FK_Team_ConferenceDivision FOREIGN KEY REFERENCES ConferenceDivision(ConferenceDivisionID)
 );
-GO
 
-CREATE TABLE Team (
-    TeamID INT PRIMARY KEY IDENTITY(1,1),
-    TeamName VARCHAR(50) NOT NULL,
-    TeamCityState VARCHAR(50) NOT NULL,
-    TeamColors VARCHAR(50) NOT NULL,
-    ConferenceDivisionID INT NOT NULL,
-    CONSTRAINT FK_Team_ConferenceDivision
-        FOREIGN KEY (ConferenceDivisionID)
-        REFERENCES ConferenceDivision(ConferenceDivisionID)
-);
-GO

@@ -1,113 +1,48 @@
-/* SELECT *
-FROM ConferenceDivision
-WHERE Conference = 'NFC';
-
-SELECT TeamName, TeamCityState, TeamColors
-FROM Team
-WHERE ConferenceDivisionID = 1
-ORDER BY TeamName;
-
-SELECT 
-    t.TeamName,
-    t.TeamCityState,
-    cd.Conference,
-    cd.Division
-FROM Team t
-JOIN ConferenceDivision cd
-    ON t.ConferenceDivisionID = cd.ConferenceDivisionID
-ORDER BY cd.Conference, cd.Division, t.TeamName;
-*/
-
--- use master;
-
--- CREATE LOGIN APILogin
--- WITH PASSWORD = 'MI$T353Instructor'
-
--- GO
-
--- use master;
+-- 3 queries
+-- 1 each for ConferenceDivision and Team tables, and 1 join query
 
 /*
-USE master;
-
-
-CREATE LOGIN NanadaSurendra
-WITH PASSWORD = 'MI$T353Instructor';
-
-
-
-USE [mist353-server-schwertfeger];
-GO
-
-CREATE USER NanadaSurendra
-FOR LOGIN NanadaSurendra;
-GO
-
-GRANT EXECUTE TO NanadaSurendra;
-GRANT SELECT TO NanadaSurendra;
+1. User searches for teams using Conference name (optional) and / or Division name (optional)
+To show: TeamName, ConferenceName, DivisionName
 */
 
-/*
-CREATE USER APIUser
-For LOGIN APILogin;
+go
 
-GRANT EXECUTE to APIUser;
-Grant SELECT to APIUser;
-*/
-
-
-use [mist353-server-schwertfeger];
-
-GO
 
 create or alter procedure procGetTeamsByConferenceDivision
 (
-    @ConferenceName NVARCHAR(50) = NULL,
-    @DivisionName NVARCHAR(50) =NULL
+    @ConferenceName NVARCHAR(50) = null,
+    @DivisionName NVARCHAR(50) = null
 )
 AS
-BEGIN
-   
-    SELECT TeamName, TeamColors, Conference, Division
-    FROM Team T
-    INNER JOIN ConferenceDivision C
-        ON T.ConferenceDivisionID = C.ConferenceDivisionID
-    WHERE C.Conference = ISNULL(@ConferenceName, Conference)
-    AND C.Division = ISNULL(@DivisionName, Division)
-
-END
-
-
+begin
+    select TeamName, TeamColors, Conference, Division
+    from Team T inner join ConferenceDivision C
+        on T.ConferenceDivisionID = C.ConferenceDivisionID
+    where Conference = IsNull(@ConferenceName, Conference)
+        and Division = IsNull(@DivisionName, Division)
+end
 /*
-Execute procGetTeamsByConferenceDivision
-@ConferenceName = 'NFC',
-@DivisionName = 'North'
+execute procGetTeamsByConferenceDivision
+    @ConferenceName = 'AFC',
+    @DivisionName = 'North';
 */
 
 
-GO
+go
 
-CREATE OR ALTER PROCEDURE procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
+create OR alter procedure procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
 (
-    @TeamName VARCHAR(50)
+    @TeamName NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT OtherTeam.TeamName
-    FROM Team MyTeam
-    INNER JOIN Team OtherTeam
-        ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-    WHERE MyTeam.TeamName = @TeamName
-      AND OtherTeam.TeamName != @TeamName;
-END;
-GO
-
-
-USE [mist353-server-schwertfeger];
-GO
-
-IF OBJECT_ID('dbo.procGetOtherTeamsInDivision', 'P') IS NOT NULL
-    DROP PROCEDURE GetOtherTeamsInDivision;
-GO
-DROP PROCEDURE IF EXISTS dbo.GetOtherTeamsInDivision;
-GO
+    select OtherTeam.TeamName, CD.Conference, CD.Division
+    from Team MyTeam inner join Team OtherTeam
+        on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+        inner join ConferenceDivision CD
+        on MyTeam.ConferenceDivisionID = CD.ConferenceDivisionID
+    where MyTeam.TeamName = @TeamName and
+        OtherTeam.TeamName != @TeamName;
+END
+-- execute procGetTeamsInSameConferenceDivisionAsSpecifiedTeam @TeamName = 'Baltimore Ravens';
