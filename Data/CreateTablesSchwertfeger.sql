@@ -2,6 +2,8 @@ if(OBJECT_ID('Team') is not null)
     drop table Team;
 if(OBJECT_ID('ConferenceDivision') is not null)
     drop table ConferenceDivision;
+if(OBJECT_ID('AppUser') is not NULL)
+    drop table AppUser;
 
 -- Create tables for first iteration
 go
@@ -36,3 +38,29 @@ create TABLE Team (
         constraint FK_Team_ConferenceDivision FOREIGN KEY REFERENCES ConferenceDivision(ConferenceDivisionID)
 );
 
+GO
+
+-- Create Tables for Second Iteration
+
+CREATE TABLE AppUser(
+    AppUserID INT IDENTITY(1,1)
+        CONSTRAINT PK_AppUser PRIMARY KEY,
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(100) NOT NULL
+        CONSTRAINT UK_AppUserEmail UNIQUE,
+    PasswordHash VARBINARY(200) NOT NULL,
+    Phone NVARCHAR(20) NOT NULL,
+    UserRole NVARCHAR(20) NOT NULL
+        CONSTRAINT CK_AppUserRole CHECK (UserRole In (N'NFL Admin', N'NFL Fan'))
+);
+
+create table NFLFan(
+    NFLFanID INT identity(1,1)
+        constraint PK_NFLFan PRIMARY KEY,
+    AppUserID INT NOT NULL
+        constraint FK_NFLFan_AppUser FOREIGN KEY REFERENCES AppUser (AppUserID),
+FavoriteTeamID INT NOT NULL
+constraint FK_NFLFan_Team FOREIGN KEY REFERENCES Team (TeamID)
+
+);
