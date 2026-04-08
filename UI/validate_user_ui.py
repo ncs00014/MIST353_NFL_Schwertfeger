@@ -31,5 +31,7 @@ def validate_user_ui():
         if df is not None and not df.empty:
             st.success(f"User {email} is valid!")
             st.dataframe(df, use_container_width=True, hide_index=True)
+            st.session_state.app_user_id= df["AppUserID"].values[0]
+            st.session_state.app_user_fullname= df["Fullname"].values[0]
         else:
             st.info(f"User {email} is not valid. Please check the inputs and try again.")

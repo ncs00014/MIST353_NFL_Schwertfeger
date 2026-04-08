@@ -62,6 +62,32 @@ BEGIN
     PasswordHash = Convert(VARBINARY(200), @PasswordHash, 1);
 END
 
-execute procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
+--execute procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
 -- select * from AppUser
 
+go
+
+create or alter procedure procGetTeamsForSpecifiedFan
+(
+    @NFLFanID INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        T.TeamName,
+        CD.Conference,
+        CD.Division,
+        FT.PrimaryTeam
+    FROM FanTeam FT
+    INNER JOIN Team T
+        ON FT.TeamID = T.TeamID
+    INNER JOIN ConferenceDivision CD
+        ON T.ConferenceDivisionID = CD.ConferenceDivisionID
+    WHERE FT.NFLFanID = @NFLFanID
+    ORDER BY FT.PrimaryTeam DESC, T.TeamName;
+END
+
+--execute procGetTeamsForSpecifiedFan @NFLFanID = 1;
+--execute procGetTeamsForSpecifiedFan @NFLFanID = 2;
