@@ -8,9 +8,9 @@ def validate_user(
 
     #with get_db_connection() as conn:
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(as_dict=True)
     #cursor.execute("{CALL procValidateUser(?, ?)}", (email, password_hash))
-    cursor.callproc("procGetTeamsByConferenceDivision", (email, password_hash))
+    cursor.callproc("procValidateUser", (email, password_hash))
     rows = cursor.fetchall()
     conn.close()
 

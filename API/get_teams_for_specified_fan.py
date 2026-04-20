@@ -4,24 +4,23 @@ import pymssql
 
 def get_teams_for_specified_fan(nflfan_id: int):
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(as_dict=True)
 
     # Execute stored procedure using parameter tuple
-    cursor.callproc("{CALL GetTeamsForSpecifiedFan(?)}", (nflfan_id,))
+    cursor.execute("exec procGetTeamsForSpecifiedFan %s", (nflfan_id))
     rows = cursor.fetchall()
+    conn.close
 
     # Build list of results using index access
     results = [
         {
-            "TeamName": row[0],      # TeamName
-            "Conference": row[1],    # Conference
-            "Division": row[2],      # Division
+            "TeamName": row["TeamName"],      # TeamName
+            "Conference": row["Conference"],    # Conference
+            "Division": row["Division"],      # Division
+            "TeamColors": row["TeamColors"],
+            "PrimaryTeam": row["PrimaryTeam"]
         }
         for row in rows
     ]
-
-    # Close connection
-    cursor.close()
-    conn.close()
 
     return {"data": results}
