@@ -7,7 +7,7 @@ def get_teams_for_specified_fan(nflfan_id: int):
     cursor = conn.cursor(as_dict=True)
 
     # Execute stored procedure using parameter tuple
-    cursor.execute("exec procGetTeamsForSpecifiedFan %s", (nflfan_id))
+    cursor.execute("exec procGetTeamsForSpecifiedFan %s", (nflfan_id,))
     rows = cursor.fetchall()
     conn.close
 
