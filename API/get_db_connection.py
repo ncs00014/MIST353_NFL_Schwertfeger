@@ -14,6 +14,6 @@ def get_db_connection():
 
     #connection_string = f"DRIVER={{ODBC Driver 18 for SQL Server}};"f"SERVER={input_server};"f"DATABASE={input_database};"f"UID={input_user};"f"PWD={input_password};"
     #connection_string += "Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
-    
+    print("Attempting to connect to server: " + input_server)
     #return pyodbc.connect(connection_string)
     return pymssql.connect(server=input_server, database=input_database, user=input_user, password=input_password, port=1433, autocommit=True)
