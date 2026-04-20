@@ -16,4 +16,4 @@ def get_db_connection():
     #connection_string += "Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
     
     #return pyodbc.connect(connection_string)
-    return pymssql.connect(server=input_server, database=input_database, user=input_user, password=input_password, port=1433, tds_version='7.4')
+    return pymssql.connect(server=input_server, database=input_database, user=input_user, password=input_password, port=1433, tds_version='7.3')
