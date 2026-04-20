@@ -10,7 +10,8 @@ def get_teams_by_conference_division(
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
     #cursor.execute("{CALL procGetTeamsByConferenceDivision(?, ?)}", (conference, division))
-    cursor.callproc("procGetTeamsByConferenceDivision", (conference, division))
+    #cursor.callproc("procGetTeamsByConferenceDivision", (conference, division))
+    cursor.execute("EXEC procGetTeamsByConferenceDivision %s, %s", (conference, division))
     rows = cursor.fetchall()
     conn.close()
 
