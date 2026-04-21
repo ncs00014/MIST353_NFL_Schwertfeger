@@ -77,6 +77,7 @@ BEGIN
 
     SELECT 
         T.TeamName,
+        T.TeamColors,
         CD.Conference,
         CD.Division,
         FT.PrimaryTeam

@@ -1,28 +1,18 @@
-import streamlit as st
-import requests
+import streamlit as st 
+from fetch_data import fetch_data
 
 def get_teams_for_specified_fan_ui():
-    st.subheader("Get Teams for Specified Fan")
-    nflfan_id = st.number_input("Enter NFL Fan ID:", min_value=1, step=1)
 
-    if st.button("Get Teams"):
-        try:
-            response = requests.get(
-                f"http://127.0.0.1:8000/get_teams_for_specified_fan/?nflfan_id={nflfan_id}"
-            )
-            if response.status_code == 200:
-                result = response.json()
-                data = result.get("data", [])  # <-- Extract 'data' list
+    fan_name = st.session_state.app_user_fullname
+    st.header(f"Teams associated with {fan_name}")
+    
+    input_parameters = {}
+    fan_id = st.text_input("Fan ID", value=st.session_state.app_user_id, disabled=True)
+    input_parameters["fan_id"] = fan_id
 
-                if data:
-                    for team in data:
-                        st.write(f"**Team Name:** {team.get('TeamName', 'N/A')}")
-                        st.write(f"**Conference:** {team.get('Conference', 'N/A')}")
-                        st.write(f"**Division:** {team.get('Division', 'N/A')}")
-                        st.write("---")
-                else:
-                    st.warning("No teams found for this fan.")
-            else:
-                st.error(f"API returned {response.status_code}")
-        except Exception as e:
-            st.error(f"Error: {e}")
+    df = fetch_data("get_teams_for _specified _fan/", input_parameters)
+
+    if df is not None and not df.empty:
+        st.dataframe(df, use_container_width=True, hide_index=True)
+    else:
+        st.info("No teams found for the specified fan.")
