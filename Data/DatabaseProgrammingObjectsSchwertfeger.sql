@@ -141,6 +141,7 @@ execute procScheduleGame
     @StadiumID = 17,
     @NFLAdminID = 6;
 
+delete from Game where GameID = 11;
 select * from Game order by GameID desc;
 select * from AdminChangesTracker order by AdminChangesTrackerID desc;
 
@@ -204,3 +205,29 @@ BEGIN
     insert into AdminChangesTracker (NFLAdminID, GameID, ChangeType, ChangeDescription)
     values (@NFLAdminID, @GameID, @ChangeType, @ChangeDescription);
 END
+
+GO
+CREATE PROCEDURE procEnterScores
+    @GameID INT,
+    @HomeTeamScore INT,
+    @AwayTeamScore INT,
+    @NFLAdminID INT
+AS
+BEGIN
+    DECLARE @WinningTeamID INT;
+
+    -- Determine winner
+    IF @HomeTeamScore > @AwayTeamScore
+        SELECT @WinningTeamID = HomeTeamID FROM Game WHERE GameID = @GameID;
+    ELSE
+        SELECT @WinningTeamID = AwayTeamID FROM Game WHERE GameID = @GameID;
+
+    -- Update game
+    UPDATE Game
+    SET 
+        HomeTeamScore = @HomeTeamScore,
+        AwayTeamScore = @AwayTeamScore,
+        WinningTeamID = @WinningTeamID
+    WHERE GameID = @GameID;
+END
+GO
