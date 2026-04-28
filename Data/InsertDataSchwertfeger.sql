@@ -271,6 +271,21 @@ execute procScheduleGame
 
 GO
 
+EXEC procScheduleGame
+    @HomeTeamID = 32,
+    @AwayTeamID = 11,
+    @GameRound = 'Super Bowl',
+    @GameDate = '2026-02-08',
+    @GameStartTime = '18:30',
+    @StadiumID = 29,
+    @NFLAdminID = 5;
+GO
+EXEC procEnterScores
+    @GameID = 15,  -- (or whatever it becomes in your DB)
+    @HomeTeamScore = 29,
+    @AwayTeamScore = 13,
+    @NFLAdminID = 8;
+GO
 -- select * from AdminChangesTracker
 --  select * from Game
 -- select N.NFLAdminID, U.Firstname, U.LastName from NFLAdmin N inner join APPUser U on N.NFLAdminID = U.AppUserID

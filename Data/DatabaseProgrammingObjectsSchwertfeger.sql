@@ -231,3 +231,32 @@ BEGIN
     WHERE GameID = @GameID;
 END
 GO
+
+CREATE TRIGGER trgTrackChangesOnEnteringScores
+ON Game
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @NFLAdminID INT = CONVERT(INT, SESSION_CONTEXT(N'NFLAdminID'));
+
+    INSERT INTO AdminChangesTracker
+        (NFLAdminID, GameID, ChangeDateTime, ChangeType, ChangeDescription)
+    SELECT
+        @NFLAdminID,
+        i.GameID,
+        GETDATE(),
+        'Update',
+        CONCAT(
+            'Scores updated: Home=', i.HomeTeamScore,
+            ', Away=', i.AwayTeamScore,
+            ', WinningTeamID=', i.WinningTeamID
+        )
+    FROM inserted i
+    JOIN deleted d ON i.GameID = d.GameID
+    WHERE 
+        ISNULL(i.HomeTeamScore, -1) <> ISNULL(d.HomeTeamScore, -1)
+        OR ISNULL(i.AwayTeamScore, -1) <> ISNULL(d.AwayTeamScore, -1);
+END
+GO
