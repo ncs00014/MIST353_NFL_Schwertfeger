@@ -3,6 +3,7 @@ from get_teams_by_conference_division import get_teams_by_conference_division
 from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team
 from validate_user import validate_user
 from get_teams_for_specified_fan import get_teams_for_specified_fan
+from schedule_game import schedule_game
 import pymssql
 
 app = FastAPI()
@@ -11,14 +12,34 @@ app = FastAPI()
 def get_teams_by_conference_division_api(conference: str = None, division: str = None):
     return get_teams_by_conference_division(conference=conference, division=division)
 
-@app.get ("/get_teams_in_same_conference_division_as_specified_team/")
+@app.get("/get_teams_in_same_conference_division_as_specified_team/")
 def get_teams_in_same_conference_division_as_specified_team_api(team_name: str):
     return get_teams_in_same_conference_division_as_specified_team(team_name=team_name)
 
-@app.get ("/validate_user/")
+@app.get("/validate_user/")
 def validate_user_api(email: str, password_hash: str):
     return validate_user(email=email, password_hash=password_hash)
 
 @app.get("/get_teams_for_specified_fan/")
 def get_teams_for_specified_fan_api(nflfan_id: int):
     return get_teams_for_specified_fan(nflfan_id=nflfan_id)
+
+@app.post("/schedule_game/")
+def schedule_game_api(
+    home_team_id: int,
+    away_team_id: int,
+    game_round: str,
+    game_date: str,
+    game_time: str,
+    stadium_id: int,
+    nfl_admin_id: int
+):
+    return schedule_game(
+        home_team_id=home_team_id,
+        away_team_id=away_team_id,
+        game_round=game_round,
+        game_date=game_date,
+        game_time=game_time,
+        stadium_id=stadium_id,
+        nfl_admin_id=nfl_admin_id
+    )
