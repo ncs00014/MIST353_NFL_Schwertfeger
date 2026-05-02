@@ -1,5 +1,5 @@
 import streamlit as st 
-from fetch_data import fetch_data
+from fetch_data import get_data
 
 def get_teams_for_specified_fan_ui():
     # If session is empty, force a default so it doesn't show the error
@@ -21,7 +21,7 @@ def get_teams_for_specified_fan_ui():
     input_parameters["nflfan_id"] = fan_id # Ensure this matches your API argument name
 
     # Note: Removed spaces from the endpoint string to prevent 404s
-    df = fetch_data("get_teams_for_specified_fan/", input_parameters)
+    df = get_data("get_teams_for_specified_fan/", input_parameters)
 
     if df is not None and not df.empty:
         st.dataframe(df, use_container_width=True, hide_index=True)

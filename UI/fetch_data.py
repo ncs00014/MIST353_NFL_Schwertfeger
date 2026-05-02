@@ -4,21 +4,19 @@ import pandas as pd
 
 FASTAPI_url = "http://localhost:8000"
 
-def fetch_data(endpoint: str, input_params: dict = None, method: str = "GET"):
+
+def get_data(endpoint: str, input_params: dict = None, method: str = "GET"):
     try:
-        if method.upper() == "GET":
-            response = requests.get(f"{FASTAPI_url}/{endpoint}", params=input_params)
-        elif method.upper() == "POST":
-            response = requests.post(f"{FASTAPI_url}/{endpoint}", json=input_params)
-        else:
-            st.error(f"Unsupported HTTP method: {method}")
-            return None
+        response = requests.get(
+            f"{FASTAPI_url}/{endpoint}",
+            params=input_params
+        )
 
         if response.status_code == 200:
             payload = response.json()
             rows = payload.get("data", [])
-            df = pd.DataFrame(rows)
-            return df
+            return pd.DataFrame(rows)
+
         else:
             st.error(f"Error fetching data: {response.status_code} - {response.text}")
             return None
@@ -26,3 +24,25 @@ def fetch_data(endpoint: str, input_params: dict = None, method: str = "GET"):
     except requests.exceptions.RequestException as e:
         st.error(f"Request failed: {e}")
         return None
+
+
+def post(endpoint: str, input_params: dict, method: str = "POST") -> dict:
+    try:
+        response = requests.post(
+            f"{FASTAPI_url}/{endpoint}",
+            params=input_params   # ✅ THIS IS THE KEY FIX
+        )
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            st.error(f"Error posting data: {response.status_code}")
+            st.error(response.text)
+            return {
+                "status_message": f"Error occurred: {response.status_code}",
+                "detail": response.text
+            }
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"Request failed: {e}")
+        return {}

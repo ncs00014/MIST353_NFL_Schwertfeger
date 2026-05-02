@@ -6,7 +6,7 @@ def schedule_game(
     away_team_id: int,
     game_round: str,
     game_date: date,
-    game_time: time,
+    game_start_time: time,
     stadium_id: int,
     nfl_admin_id: int
 ):
@@ -16,7 +16,7 @@ def schedule_game(
     try:
         cursor.execute(
             "exec procScheduleGame %s, %s, %s, %s, %s, %s, %s",
-            (home_team_id, away_team_id, game_round, game_date, game_time, stadium_id, nfl_admin_id)
+            (home_team_id, away_team_id, game_round, game_date, game_start_time, stadium_id, nfl_admin_id)
         )
 
         conn.commit()
