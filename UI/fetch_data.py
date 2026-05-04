@@ -2,7 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 
-FASTAPI_url = "http://localhost:8000"
+FASTAPI_url = "https://mist353-api-schwertfeger.azurewebsites.net" 
+# FASTAPI_url = "http://localhost:8000"
 
 
 def get_data(endpoint: str, input_params: dict = None, method: str = "GET"):
@@ -30,7 +31,7 @@ def post(endpoint: str, input_params: dict, method: str = "POST") -> dict:
     try:
         response = requests.post(
             f"{FASTAPI_url}/{endpoint}",
-            params=input_params   # ✅ THIS IS THE KEY FIX
+            params=input_params   # THIS IS THE KEY FIX
         )
 
         if response.status_code == 200:
