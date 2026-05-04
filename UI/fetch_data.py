@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 
 FASTAPI_url = "https://mist353-api-schwertfeger.azurewebsites.net" 
-# FASTAPI_url = "http://localhost:8000"
 
 
 def get_data(endpoint: str, input_params: dict = None, method: str = "GET"):
